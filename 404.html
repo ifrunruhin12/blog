@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page Not Found - 404 Error</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .error-container {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+      background: var(--bg-color);
+      color: var(--text-color);
+    }
+    
+    .error-content {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 3rem;
+      max-width: 800px;
+      width: 100%;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+    
+    .error-emoji {
+      font-size: 4rem;
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+    
+    .error-title {
+      font-size: 8rem;
+      margin: 0;
+      background: linear-gradient(45deg, #4facfe 0%, #00f2fe 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .error-subtitle {
+      font-size: 1.8rem;
+      margin: 1rem 0 2rem;
+      color: var(--text-secondary);
+    }
+    
+    .error-message {
+      font-size: 1.2rem;
+      margin-bottom: 2.5rem;
+      line-height: 1.6;
+    }
+    
+    .error-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.8rem 1.8rem;
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-color);
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-weight: 500;
+      backdrop-filter: blur(5px);
+    }
+    
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+    
+    .btn i {
+      font-size: 1.1em;
+    }
+    
+    @media (max-width: 768px) {
+      .error-content {
+        padding: 2rem 1.5rem;
+      }
+      
+      .error-title {
+        font-size: 6rem;
+      }
+      
+      .error-subtitle {
+        font-size: 1.5rem;
+      }
+      
+      .error-actions {
+        flex-direction: column;
+        gap: 0.8rem;
+      }
+      
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="error-container">
+    <div class="error-content">
+      <span class="error-emoji">�</span>
+      <h1 class="error-title">404</h1>
+      <h2 class="error-subtitle">Page Not Found</h2>
+      <p class="error-message">
+        Oops! The page you're looking for doesn't exist or has been moved.
+        Let's get you back on track.
+      </p>
+      <div class="error-actions">
+        <a href="/" class="btn"><i class="fas fa-home"></i> Go to Homepage</a>
+        <a href="/blog" class="btn"><i class="fas fa-blog"></i> Visit Blog</a>
+        <a href="mailto:ifrunruhin@gmail.com" class="btn"><i class="fas fa-envelope"></i> Contact Me</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
