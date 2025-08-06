@@ -1,5 +1,5 @@
 // API Configuration
-const API_BASE_URL = 'https://blog-backend-qlgd.onrender.com';
+const API_BASE_URL = 'https://blog-backend-qlgd.onrender.com/api';
 
 // Fetch and display blog posts
 async function loadBlogPosts() {
