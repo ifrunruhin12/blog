@@ -1,0 +1,278 @@
+html, body {
+  height: 100%;
+  min-height: 100%;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: radial-gradient(ellipse at top, #1f1b2e, #0a0a0a);
+  color: #f9fafb;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+
+html {
+  font-size: 120%;
+  scroll-behavior: smooth;
+}
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  background: rgba(17, 24, 39, 0.9);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.nav-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 1rem;
+  font-size: 1rem;
+  position: relative;
+}
+
+.nav-container .emoji {
+  position: absolute;
+  left: 1rem;
+  font-size: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.nav-container a {
+  color: #a78bfa;
+  text-decoration: none;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+.nav-container a:hover {
+  color: #c084fc;
+  text-shadow: 0 0 5px #c084fc;
+}
+
+.blog-link {
+  font-weight: bold;
+}
+
+.hero-title {
+  font-size: 3.7rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #f9fafb;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 8rem 1rem 12rem;
+}
+
+#home {
+  margin-top: 4.3rem;
+}
+
+#about {
+  scroll-margin-top: 100px; /* makes scrolling to #about offset nicely */
+}
+
+.about-layout {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: nowrap;
+}
+
+.about-side-img {
+  width: 160px;
+  height: 160px;
+  border-radius: 9999px;
+  border: 4px solid #4c1d95;
+  animation: pulse 2s infinite;
+  flex-shrink: 0;
+}
+
+/* 👇 Responsive fallback for mobile screens */
+@media (max-width: 640px) {
+  .about-layout {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.about-grid {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.about-img {
+  width: 150px;
+  height: 150px;
+  border-radius: 9999px;
+  border: 4px solid #4c1d95;
+  animation: pulse 2s infinite;
+  flex-shrink: 0;
+}
+
+.profile-img {
+  width: 160px;
+  height: 160px;
+  border-radius: 9999px;
+  border: 4px solid #4c1d95;
+  margin-bottom: 1rem;
+  animation: pulse 2s infinite;
+}
+.tagline {
+  color: #a78bfa;
+}
+
+.container {
+  max-width: 768px;
+  margin: 0 auto;
+  padding: 5rem 1.5rem;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1.5rem;
+  border-radius: 1rem;
+}
+a {
+  text-decoration: none;
+  color: #c084fc;
+}
+a:hover {
+  text-shadow: 0 0 8px #c084fc;
+}
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+.skill-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid #4c1d95;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  text-align: center;
+  transition: 0.3s ease;
+}
+
+.skill-card img {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto;
+  display: block;
+  filter: brightness(1.2); /* Optional: match the glow aesthetic */
+}
+
+.skill-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 12px #9333ea;
+}
+.skill-card i {
+  font-size: 2.5rem;
+}
+.connect a {
+  display: block;
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+.project-card {
+  padding: 1.5rem;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 1rem;
+  padding: 1.5rem 0;
+}
+.social-icons a {
+  font-size: 1.8rem;
+  color: #c084fc;
+  transition: transform 0.3s ease, text-shadow 0.3s ease;
+}
+.social-icons a:hover {
+  transform: scale(1.2);
+  text-shadow: 0 0 8px #c084fc;
+}
+
+.social-inline {
+  display: flex;
+  gap: 1.2rem;
+  margin-top: 0.75rem;
+}
+.social-inline a {
+  font-size: 1.6rem;
+  color: #c084fc;
+  transition: transform 0.3s ease, text-shadow 0.3s ease;
+}
+.social-inline a:hover {
+  transform: scale(1.15);
+  text-shadow: 0 0 6px #c084fc;
+}
+
+/* Loading and Error States */
+.loading {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-color);
+}
+
+.error-message {
+  text-align: center;
+  padding: 1rem;
+  background: rgba(255, 0, 0, 0.1);
+  border: 1px solid rgba(255, 0, 0, 0.3);
+  border-radius: 10px;
+  margin: 1rem 0;
+  color: #ff6b6b;
+}
+
+/* Post Meta Styling */
+.post-meta {
+  margin-top: 1rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.post-meta small {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.8rem;
+}
+
+/* Enhanced Project Card for Blog Posts */
+.project-card ul {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+.project-card ul li {
+  margin: 0.5rem 0;
+  color: rgba(255, 255, 255, 0.8);
+}

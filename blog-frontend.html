@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog | Ifrun Kader Ruhin</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+</head>
+<body>
+
+  <!-- Navbar (Same as main site) -->
+  <header class="navbar">
+    <nav class="nav-container">
+      <span class="emoji">👨‍💻</span>
+      <a href="/#home">Home</a>
+      <a href="blog/blog-frontend.html" class="blog-link">Blog</a>
+      <a href="/#about">About</a>
+      <a href="/#skills">Skills</a>
+      <a href="/#achievements">Achievements</a>
+      <a href="/#projects">Projects</a>
+      <a href="/#contact">Contact</a>
+    </nav>
+  </header>
+
+  <!-- Blog Section -->
+  <section class="container" id="blog-posts" data-aos="fade-up">
+    <h2>Blog Posts</h2>
+    <div class="loading" id="loading">
+      <p>Loading blog posts...</p>
+    </div>
+    <div class="error-message" id="error-message" style="display: none;">
+      <p>❌ Unable to load blog posts. Make sure the backend is running on localhost:3000</p>
+    </div>
+    <div class="projects-grid" id="posts-container">
+      <!-- Blog posts will be loaded dynamically here -->
+    </div>
+  </section>
+
+  <!-- Blog Footer or Comments (Optional later) -->
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="blog-frontend.js"></script>
+</body>
+</html>
