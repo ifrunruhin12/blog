@@ -4,10 +4,13 @@ html, body {
 }
 
 body {
-  height: 100%;
+  min-height: 100vh;
   margin: 0;
   padding: 0;
-  background: radial-gradient(ellipse at top, #1f1b2e, #0a0a0a);
+  background: radial-gradient(ellipse at top, #1f1b2e, #0a0a0a) fixed;
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
   color: #f9fafb;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   line-height: 1.6; /* Improved line height for better readability */
