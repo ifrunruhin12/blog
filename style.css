@@ -30,8 +30,8 @@ html {
   background: rgba(17, 24, 39, 0.9);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 0.8rem 0; /* Added padding to maintain navbar height */
-  font-size: 120%;
+  padding: 0.8rem 0;
+  font-size: 1.2rem; /* Changed from 120% to 1.2rem for better control */
 }
 
 .nav-container {
@@ -57,16 +57,13 @@ html {
   transition: transform 0.3s ease-in-out;
 }
 
-.nav-links a {
-  font-size: 1rem;
-}
-
 .nav-container a {
   color: #a78bfa;
   text-decoration: none;
   transition: color 0.3s ease, text-shadow 0.3s ease;
   white-space: nowrap;
   padding: 0.5rem 0;
+  font-size: 1.2rem; /* Added explicit font size for all nav links */
 }
 
 .nav-container a:hover {
