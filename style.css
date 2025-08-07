@@ -10,12 +10,16 @@ body {
   background: radial-gradient(ellipse at top, #1f1b2e, #0a0a0a);
   color: #f9fafb;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6; /* Improved line height for better readability */
+  word-spacing: normal; /* Reset word spacing to default */
+  letter-spacing: 0.01em; /* Slight letter spacing for better readability */
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-
-
 html {
-  font-size: 120%;
+  font-size: 100%; /* Changed from 120% to 100% for better base scaling */
   scroll-behavior: smooth;
 }
 
@@ -198,7 +202,9 @@ html {
 .container {
   max-width: 768px;
   margin: 0 auto;
-  padding: 5rem 1.5rem;
+  padding: 2rem 1.5rem;
+  font-size: 1rem; /* Explicitly set base font size */
+  line-height: 1.7; /* Slightly larger line height for content */
 }
 
 .glass {
@@ -291,6 +297,74 @@ a:hover {
 .social-inline a:hover {
   transform: scale(1.15);
   text-shadow: 0 0 6px #c084fc;
+}
+
+/* Blog post content styling */
+.blog-post-content {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #e5e7eb; /* Slightly lighter text for better contrast */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.3;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  color: #f9fafb;
+}
+
+h1 { font-size: 2.2rem; }
+h2 { font-size: 1.8rem; }
+h3 { font-size: 1.5rem; }
+h4 { font-size: 1.3rem; }
+h5 { font-size: 1.1rem; }
+
+/* Paragraphs */
+p {
+  margin: 0 0 1.5rem 0;
+  word-spacing: normal;
+  letter-spacing: 0.01em;
+}
+
+/* Responsive typography */
+@media screen and (max-width: 768px) {
+  html {
+    font-size: 100%;
+  }
+  
+  .container {
+    padding: 1.5rem 1rem;
+  }
+  
+  h1 { font-size: 1.8rem; }
+  h2 { font-size: 1.6rem; }
+  h3 { font-size: 1.4rem; }
+  h4 { font-size: 1.2rem; }
+  h5 { font-size: 1.1rem; }
+  
+  .blog-post-content {
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+}
+
+/* For very small devices */
+@media screen and (max-width: 480px) {
+  .container {
+    padding: 1.25rem 0.75rem;
+  }
+  
+  h1 { font-size: 1.6rem; }
+  h2 { font-size: 1.4rem; }
+  h3 { font-size: 1.3rem; }
+  
+  p {
+    margin-bottom: 1.25rem;
+  }
 }
 
 /* Loading and Error States */
