@@ -97,6 +97,34 @@
   border-bottom-color: #667eea;
 }
 
+/* Image styles */
+.post-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 1.5rem auto;
+  display: block;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  max-height: 70vh;
+  object-fit: contain;
+}
+
+.post-content img:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Center align image captions */
+.post-content img + em {
+  display: block;
+  text-align: center;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: -1rem;
+  margin-bottom: 1.5rem;
+}
+
 .back-button {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;

@@ -84,6 +84,9 @@ function formatContent(content) {
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
     .replace(/\*(.*?)\*/g, '<em>$1</em>')
     
+    // Images
+    .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" class="post-image">')
+    
     // Code blocks
     .replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>')
     .replace(/`([^`]+)`/g, '<code>$1</code>')
@@ -98,25 +101,25 @@ function formatContent(content) {
     .replace(/^\* (.*$)/gm, '<li>$1</li>')
     .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>')
     
-    // Line breaks
-    .replace(/\n\n/g, '</p><p>')
-    .replace(/\n/g, '<br>')
-    
-    // Wrap in paragraphs
-    .replace(/^(.)/gm, '<p>$1')
-    .replace(/(.)$/gm, '$1</p>')
-    
-    // Clean up multiple paragraph tags
-    .replace(/<\/p><p>/g, '</p>\n<p>')
-    .replace(/<p><\/p>/g, '')
-    .replace(/<p>(<h[1-6]>)/g, '$1')
-    .replace(/(<\/h[1-6]>)<\/p>/g, '$1')
-    .replace(/<p>(<blockquote>)/g, '$1')
-    .replace(/(<\/blockquote>)<\/p>/g, '$1')
-    .replace(/<p>(<ul>)/g, '$1')
-    .replace(/(<\/ul>)<\/p>/g, '$1')
-    .replace(/<p>(<pre>)/g, '$1')
-    .replace(/(<\/pre>)<\/p>/g, '$1');
+    // Paragraphs (add this after other replacements)
+    .split('\n\n')
+    .map(paragraph => {
+      if (!paragraph.trim().startsWith('<') || 
+          paragraph.trim().startsWith('<p>') || 
+          paragraph.trim().startsWith('<img') ||
+          paragraph.trim().startsWith('<ul>') || 
+          paragraph.trim().startsWith('<ol>') || 
+          paragraph.trim().startsWith('<blockquote>') ||
+          paragraph.trim().startsWith('<h1>') ||
+          paragraph.trim().startsWith('<h2>') ||
+          paragraph.trim().startsWith('<h3>') ||
+          paragraph.trim().startsWith('<pre>')) {
+        return paragraph;
+      }
+      return `<p>${paragraph}</p>`;
+    })
+    .join('\n\n')
+    .replace(/\n/g, '<br>');
 }
 
 // Format date
