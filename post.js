@@ -7,6 +7,51 @@ function getSlugFromURL() {
   return urlParams.get('slug');
 }
 
+function setEngagementUI(post) {
+  const likesValue = document.getElementById('likes-value');
+  const viewsValue = document.getElementById('views-value');
+  if (likesValue) likesValue.textContent = post.likes ?? 0;
+  if (viewsValue) viewsValue.textContent = post.views ?? 0;
+
+  // Init like button state
+  const slug = post.slug;
+  const likeBtn = document.getElementById('like-button');
+  if (!likeBtn) return;
+  const likedKey = `liked:${slug}`;
+  const alreadyLiked = localStorage.getItem(likedKey) === '1';
+  if (alreadyLiked) {
+    likeBtn.classList.add('disabled');
+    likeBtn.disabled = true;
+  }
+  likeBtn.onclick = async () => {
+    if (localStorage.getItem(likedKey) === '1') return;
+    try {
+      const res = await fetch(`${API_BASE_URL}/blogs/${encodeURIComponent(slug)}/like`, { method: 'POST' });
+      if (res.ok) {
+        const data = await res.json();
+        if (likesValue && typeof data.likes === 'number') likesValue.textContent = data.likes;
+        localStorage.setItem(likedKey, '1');
+        likeBtn.classList.add('disabled');
+        likeBtn.disabled = true;
+      }
+    } catch (_) {}
+  };
+}
+
+async function recordView(slug) {
+  try {
+    const viewedKey = `viewed:${slug}`;
+    if (sessionStorage.getItem(viewedKey) === '1') return;
+    const res = await fetch(`${API_BASE_URL}/blogs/${encodeURIComponent(slug)}/view`, { method: 'POST' });
+    if (res.ok) {
+      const data = await res.json();
+      const viewsValue = document.getElementById('views-value');
+      if (viewsValue && typeof data.views === 'number') viewsValue.textContent = data.views;
+      sessionStorage.setItem(viewedKey, '1');
+    }
+  } catch (_) {}
+}
+
 // Load and display post
 async function loadPost() {
   const slug = getSlugFromURL();
@@ -16,18 +61,12 @@ async function loadPost() {
     return;
   }
 
-  console.log('Loading post with slug:', slug); // Debug log
-
   const loadingEl = document.getElementById('loading');
   const errorEl = document.getElementById('error');
   const articleEl = document.getElementById('post-article');
 
   try {
-    console.log('Fetching from:', `${API_BASE_URL}/blogs/${slug}`); // Debug log
-    const response = await fetch(`${API_BASE_URL}/blogs/${slug}`);
-    
-    console.log('Response status:', response.status); // Debug log
-    
+    const response = await fetch(`${API_BASE_URL}/blogs/${encodeURIComponent(slug)}`);
     if (!response.ok) {
       if (response.status === 404) {
         throw new Error('Post not found. The post may have been deleted or the URL is incorrect.');
@@ -39,7 +78,6 @@ async function loadPost() {
     }
 
     const post = await response.json();
-    console.log('Post loaded:', post); // Debug log
     
     // Hide loading, show post
     loadingEl.classList.add('hidden');
@@ -58,6 +96,10 @@ async function loadPost() {
     
     // Process and display content (basic markdown-like formatting)
     document.getElementById('post-content').innerHTML = formatContent(post.content);
+
+    // Setup likes/views UI and record one view
+    setEngagementUI(post);
+    recordView(slug);
 
   } catch (error) {
     console.error('Error loading post:', error);
