@@ -98,8 +98,8 @@ function formatContent(content) {
     .replace(/^> (.*$)/gm, '<blockquote>$1</blockquote>')
     
     // Lists
-    .replace(/^\* (.*$)/gm, '<li>$1</li>')
-    .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>')
+    .replace(/^\s*[-*] (.*$)/gm, '<li>$1</li>')
+    .replace(/((?:<li>.*<\/li>\n?)+)/g, '<ul>$1</ul>')
     
     // Paragraphs (add this after other replacements)
     .split('\n\n')
