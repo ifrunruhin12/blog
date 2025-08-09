@@ -173,6 +173,11 @@ async function loadPosts() {
         <p><strong>Slug:</strong> ${escapeHtml(post.slug)}</p>
         <p>${escapeHtml(truncateContent(post.content, 100))}</p>
         <p><small>Created: ${formatDate(post.created_at)}</small></p>
+        <p class="post-stats"><small>
+          <i class="fas fa-heart" style="color:#e63946;"></i> ${post.likes ?? 0}
+          &nbsp;&nbsp;
+          <i class="fas fa-eye"></i> ${post.views ?? 0}
+        </small></p>
         <div class="post-actions">
           <button class="btn edit-btn" data-slug="${post.slug}">
             <i class="fas fa-edit"></i> Edit
