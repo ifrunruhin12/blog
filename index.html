@@ -57,12 +57,28 @@
     // Mobile menu toggle
     const menuBtn = document.querySelector('.menu-btn');
     const navLinks = document.querySelector('.nav-links');
+    const icon = menuBtn.querySelector('i');
     
+    function setMenuState(open) {
+      navLinks.classList.toggle('active', open);
+      menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      document.body.style.overflow = open ? 'hidden' : '';
+      if (icon) {
+        icon.classList.toggle('fa-bars', !open);
+        icon.classList.toggle('fa-times', open);
+      }
+    }
+
     menuBtn.addEventListener('click', () => {
-      navLinks.classList.toggle('active');
-      menuBtn.setAttribute('aria-expanded', 
-        menuBtn.getAttribute('aria-expanded') === 'true' ? 'false' : 'true'
-      );
+      const willOpen = !navLinks.classList.contains('active');
+      setMenuState(willOpen);
+    });
+
+    // Close on resize to desktop
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768 && navLinks.classList.contains('active')) {
+        setMenuState(false);
+      }
     });
   </script>
   <script src="blog-frontend.js"></script>
