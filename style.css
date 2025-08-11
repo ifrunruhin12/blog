@@ -524,3 +524,17 @@ p {
     box-shadow: -5px 0 15px rgba(0,0,0,0.15);
   }
 }
+
+/* Ensure post page content isn't hidden under fixed navbar */
+.post-container {
+  padding-top: 4.25rem;
+}
+
+/* Avoid overlap between theme toggle and mobile menu button */
+@media screen and (max-width: 768px) {
+  .theme-toggle--fixed {
+    left: 1rem !important;
+    right: auto !important;
+    top: 0.75rem;
+  }
+}
