@@ -4,6 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Blog | Ifrun Kader Ruhin</title>
+  <script>
+    (function () {
+      var saved = localStorage.getItem('theme');
+      if (!saved) {
+        try {
+          saved = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        } catch (_) { saved = 'dark'; }
+      }
+      document.documentElement.setAttribute('data-theme', saved);
+    })();
+  </script>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
@@ -12,7 +23,7 @@
       position: fixed;
       top: 1rem;
       right: 1rem;
-      z-index: 1;
+      z-index: 1000;
     }
   </style>
 </head>

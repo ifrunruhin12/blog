@@ -29,14 +29,20 @@ html {
 }
 
 .navbar {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 999;
   background: rgba(17, 24, 39, 0.9);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   padding: 0.8rem 0;
   font-size: 1.2rem; /* Changed from 120% to 1.2rem for better control */
+}
+
+main, section.container:first-of-type {
+  padding-top: 4.25rem;
 }
 
 .nav-container {
@@ -429,6 +435,13 @@ p {
   border-color: rgba(255, 255, 255, 0.25);
 }
 
+.theme-toggle--fixed {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1100;
+}
+
 /* Light theme overrides */
 :root[data-theme="light"] body {
   background: radial-gradient(ellipse at top, #f3f4f6, #ffffff) fixed;
@@ -489,6 +502,21 @@ p {
 :root[data-theme="light"] .social-inline a {
   color: #7c3aed;
 }
+
+:root[data-theme="light"] body { color: #111827; }
+:root[data-theme="light"] h1,
+:root[data-theme="light"] h2,
+:root[data-theme="light"] h3,
+:root[data-theme="light"] .post-title {
+  color: #1f2937;
+}
+:root[data-theme="light"] .post-meta,
+:root[data-theme="light"] .post-meta small { color: #374151; }
+:root[data-theme="light"] a { color: #6d28d9; }
+:root[data-theme="light"] a:hover { color: #5b21b6; }
+
+:root[data-theme="light"] .glass { background: rgba(255, 255, 255, 0.65); border: 1px solid rgba(0,0,0,0.06); }
+:root[data-theme="light"] .project-card { border: 1px solid rgba(0,0,0,0.06); }
 
 @media screen and (max-width: 768px) {
   :root[data-theme="light"] .nav-links {

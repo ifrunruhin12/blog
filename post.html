@@ -4,10 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Blog Post | Ifrun Kader Ruhin</title>
+  <script>
+    (function () {
+      var saved = localStorage.getItem('theme');
+      if (!saved) {
+        try {
+          saved = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        } catch (_) { saved = 'dark'; }
+      }
+      document.documentElement.setAttribute('data-theme', saved);
+    })();
+  </script>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="post.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+  <style>
+    .theme-toggle--fixed { position: fixed; top: 1rem; right: 1rem; z-index: 1100; }
+  </style>
 </head>
 <body>
 
@@ -31,6 +45,11 @@
       </nav>
     </div>
   </header>
+
+  <!-- Fixed theme toggle button -->
+  <button class="theme-toggle theme-toggle--fixed" aria-label="Toggle color theme" title="Toggle theme">
+    <i class="fa-solid fa-sun"></i>
+  </button>
 
   <div class="post-container">
     <a href="/blog/" class="back-button">
@@ -69,6 +88,30 @@
   </div>
 
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    // Minimal toggle handler mirroring index
+    const root = document.documentElement;
+    const themeToggle = document.querySelector('.theme-toggle');
+    const themeIcon = themeToggle ? themeToggle.querySelector('i') : null;
+    function applyTheme(theme) {
+      root.setAttribute('data-theme', theme);
+      if (themeIcon) {
+        const light = theme === 'light';
+        themeIcon.classList.toggle('fa-sun', !light);
+        themeIcon.classList.toggle('fa-moon', light);
+      }
+    }
+    (function initTheme(){
+      const saved = localStorage.getItem('theme');
+      applyTheme(saved === 'light' || saved === 'dark' ? saved : (matchMedia('(prefers-color-scheme: light)').matches ? 'light':'dark'));
+    })();
+    themeToggle?.addEventListener('click', ()=>{
+      const cur = root.getAttribute('data-theme') || 'dark';
+      const next = cur === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('theme', next);
+      applyTheme(next);
+    });
+  </script>
   <script src="post.js"></script>
 </body>
 </html>
