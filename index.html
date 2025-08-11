@@ -7,6 +7,14 @@
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+  <style>
+    .theme-toggle--fixed {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      z-index: 1;
+    }
+  </style>
 </head>
 <body>
   <!-- Navbar -->
@@ -30,6 +38,11 @@
     </div>
   </header>
 
+  <!-- Fixed theme toggle button -->
+  <button class="theme-toggle theme-toggle--fixed" aria-label="Toggle color theme" title="Toggle theme">
+    <i class="fa-solid fa-sun"></i>
+  </button>
+ 
   <!-- Blog Section -->
   <section class="container" id="blog-posts" data-aos="fade-up">
     <h2>Blog Posts</h2>
@@ -80,6 +93,43 @@
         setMenuState(false);
       }
     });
+
+    // Theme toggle and persistence
+    const root = document.documentElement;
+    const themeToggle = document.querySelector('.theme-toggle');
+    const themeIcon = themeToggle ? themeToggle.querySelector('i') : null;
+
+    function applyTheme(theme) {
+      root.setAttribute('data-theme', theme);
+      if (themeIcon) {
+        const light = theme === 'light';
+        themeIcon.classList.toggle('fa-sun', !light);
+        themeIcon.classList.toggle('fa-moon', light);
+      }
+    }
+
+    function getPreferredTheme() {
+      const saved = localStorage.getItem('theme');
+      if (saved === 'light' || saved === 'dark') return saved;
+      const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+      return prefersLight ? 'light' : 'dark';
+    }
+
+    function setTheme(theme) {
+      localStorage.setItem('theme', theme);
+      applyTheme(theme);
+    }
+
+    // Initialize theme
+    applyTheme(getPreferredTheme());
+
+    // Click handler
+    if (themeToggle) {
+      themeToggle.addEventListener('click', () => {
+        const current = root.getAttribute('data-theme') || 'dark';
+        setTheme(current === 'dark' ? 'light' : 'dark');
+      });
+    }
   </script>
   <script src="blog-frontend.js"></script>
 </body>

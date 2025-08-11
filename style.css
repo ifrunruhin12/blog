@@ -411,3 +411,88 @@ p {
   margin: 0.5rem 0;
   color: rgba(255, 255, 255, 0.8);
 }
+
+/* Theme toggle button */
+.theme-toggle {
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #f9fafb;
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0.45rem 0.6rem;
+  border-radius: 999px;
+  margin-left: 0.25rem;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+.theme-toggle:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+/* Light theme overrides */
+:root[data-theme="light"] body {
+  background: radial-gradient(ellipse at top, #f3f4f6, #ffffff) fixed;
+  color: #111827;
+}
+:root[data-theme="light"] .navbar {
+  background: rgba(255, 255, 255, 0.85);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(10px);
+}
+:root[data-theme="light"] .nav-container a {
+  color: #6b21a8;
+}
+:root[data-theme="light"] .nav-container a:hover {
+  color: #7c3aed;
+  text-shadow: 0 0 5px rgba(124, 58, 237, 0.45);
+}
+:root[data-theme="light"] .menu-btn {
+  color: #6b21a8;
+}
+:root[data-theme="light"] .theme-toggle {
+  color: #111827;
+  border-color: rgba(0, 0, 0, 0.12);
+}
+:root[data-theme="light"] .theme-toggle:hover {
+  background: rgba(0,0,0,0.06);
+  border-color: rgba(0, 0, 0, 0.2);
+}
+:root[data-theme="light"] .glass {
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+:root[data-theme="light"] a {
+  color: #7c3aed;
+}
+:root[data-theme="light"] a:hover {
+  text-shadow: 0 0 8px rgba(124, 58, 237, 0.35);
+}
+:root[data-theme="light"] .tagline,
+:root[data-theme="light"] .loading,
+:root[data-theme="light"] .post-meta small {
+  color: #4b5563;
+}
+:root[data-theme="light"] .error-message {
+  background: rgba(255, 0, 0, 0.08);
+  border-color: rgba(255, 0, 0, 0.25);
+  color: #b91c1c;
+}
+:root[data-theme="light"] .skill-card {
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(124, 58, 237, 0.35);
+}
+:root[data-theme="light"] .skill-card:hover {
+  box-shadow: 0 0 12px rgba(124, 58, 237, 0.35);
+}
+:root[data-theme="light"] .skills-grid i,
+:root[data-theme="light"] .social-icons a,
+:root[data-theme="light"] .social-inline a {
+  color: #7c3aed;
+}
+
+@media screen and (max-width: 768px) {
+  :root[data-theme="light"] .nav-links {
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: -5px 0 15px rgba(0,0,0,0.15);
+  }
+}
