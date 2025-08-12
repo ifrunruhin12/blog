@@ -1,7 +1,7 @@
 /* Post page specific styles */
 .post-container {
   max-width: 800px;
-  margin: 0 auto;
+  margin: 6rem auto 0; /* Added top margin to clear the fixed navbar */
   padding: 2rem;
 }
 
@@ -137,11 +137,18 @@
   text-decoration: none;
   display: inline-block;
   margin-bottom: 2rem;
+  color: #a78bfa;
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: color 0.3s ease;
+  position: relative;
+  z-index: 1; /* Ensure the button stays above other elements */
 }
 
 .back-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+  color: #c084fc;
 }
 
 .loading, .error {
