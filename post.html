@@ -19,6 +19,8 @@
   <link rel="stylesheet" href="post.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" id="hljs-theme-light">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css" id="hljs-theme-dark">
 </head>
 <body>
 
@@ -85,11 +87,15 @@
   </div>
 
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
   <script>
     // Minimal toggle handler mirroring index
     const root = document.documentElement;
     const themeToggle = document.querySelector('.theme-toggle');
     const themeIcon = themeToggle ? themeToggle.querySelector('i') : null;
+    const hljsLight = document.getElementById('hljs-theme-light');
+    const hljsDark = document.getElementById('hljs-theme-dark');
+
     function applyTheme(theme) {
       root.setAttribute('data-theme', theme);
       if (themeIcon) {
@@ -97,10 +103,22 @@
         themeIcon.classList.toggle('fa-sun', !light);
         themeIcon.classList.toggle('fa-moon', light);
       }
+      // Toggle highlight.js themes
+      if (hljsLight && hljsDark) {
+        const light = theme === 'light';
+        hljsLight.disabled = !light;
+        hljsDark.disabled = light;
+      }
     }
     (function initTheme(){
       const saved = localStorage.getItem('theme');
-      applyTheme(saved === 'light' || saved === 'dark' ? saved : (matchMedia('(prefers-color-scheme: light)').matches ? 'light':'dark'));
+      const initial = (saved === 'light' || saved === 'dark') ? saved : (matchMedia('(prefers-color-scheme: light)').matches ? 'light':'dark');
+      // Ensure only one hljs theme is active at start
+      if (hljsLight && hljsDark) {
+        hljsLight.disabled = initial !== 'light';
+        hljsDark.disabled = initial === 'light';
+      }
+      applyTheme(initial);
     })();
     themeToggle?.addEventListener('click', ()=>{
       const cur = root.getAttribute('data-theme') || 'dark';
