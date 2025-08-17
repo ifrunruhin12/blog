@@ -172,6 +172,9 @@ function formatContent(content) {
 
   // Headings, emphasis, images, links, quotes, lists
   let html = withInline
+    .replace(/^###### (.*$)/gm, '<h6>$1</h6>')
+    .replace(/^##### (.*$)/gm, '<h5>$1</h5>')
+    .replace(/^#### (.*$)/gm, '<h4>$1</h4>')
     .replace(/^### (.*$)/gm, '<h3>$1</h3>')
     .replace(/^## (.*$)/gm, '<h2>$1</h2>')
     .replace(/^# (.*$)/gm, '<h1>$1</h1>')
@@ -183,6 +186,48 @@ function formatContent(content) {
     .replace(/^\s*[-*] (.*$)/gm, '<li>$1</li>')
     .replace(/((?:<li>.*<\/li>\n?)+)/g, '<ul>$1</ul>');
 
+  // Tables (GitHub-style): header | header\n| --- | --- |\n| cell | cell |
+  const tableRegex = /(^\|.*\|\r?\n\|[\t \-:\|]+\|\r?\n(?:\|.*\|\r?\n?)*)/gm;
+  function mdTableToHtml(block) {
+    const lines = block.trim().split(/\r?\n/);
+    if (lines.length < 2) return block; // not a table
+    const headerLine = lines[0];
+    const separatorLine = lines[1];
+    const bodyLines = lines.slice(2);
+
+    function splitRow(row) {
+      // Remove leading/trailing pipe and split, then trim each cell
+      return row.replace(/^\||\|$/g, '').split('|').map(c => c.trim());
+    }
+
+    const headers = splitRow(headerLine);
+    const seps = splitRow(separatorLine);
+
+    // Determine alignment for each column
+    const aligns = seps.map(s => {
+      const hasLeft = s.startsWith(':');
+      const hasRight = s.endsWith(':');
+      if (hasLeft && hasRight) return 'center';
+      if (hasRight) return 'right';
+      if (hasLeft) return 'left';
+      return 'left';
+    });
+
+    const thead = '<thead><tr>' + headers.map((h, i) => `<th style="text-align:${aligns[i] || 'left'}">${h}</th>`).join('') + '</tr></thead>';
+
+    const tbodyRows = bodyLines
+      .filter(l => /^\|.*\|$/.test(l.trim()))
+      .map(l => {
+        const cells = splitRow(l);
+        return '<tr>' + cells.map((c, i) => `<td style="text-align:${aligns[i] || 'left'}">${c}</td>`).join('') + '</tr>';
+      })
+      .join('');
+
+    return `<table>${thead}<tbody>${tbodyRows}</tbody></table>`;
+  }
+
+  html = html.replace(tableRegex, (m) => mdTableToHtml(m));
+
   // Paragraphs (preserve existing blocks)
   html = html
     .split(/\r?\n\r?\n/)
@@ -191,7 +236,8 @@ function formatContent(content) {
       if (!t || (t.startsWith('<') && (
         t.startsWith('<p>') || t.startsWith('<img') || t.startsWith('<ul>') || t.startsWith('<ol>') ||
         t.startsWith('<blockquote>') || t.startsWith('<h1>') || t.startsWith('<h2>') || t.startsWith('<h3>') ||
-        t.startsWith('<pre>')
+        t.startsWith('<h4>') || t.startsWith('<h5>') || t.startsWith('<h6>') ||
+        t.startsWith('<pre>') || t.startsWith('<table>')
       ))) return p;
       return `<p>${p}</p>`;
     })
