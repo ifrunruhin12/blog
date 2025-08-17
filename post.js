@@ -97,6 +97,20 @@ async function loadPost() {
     // Process and display content (basic markdown-like formatting)
     document.getElementById('post-content').innerHTML = formatContent(post.content);
 
+    // Run syntax highlighting after content is injected
+    if (window.hljs) {
+      try {
+        if (typeof window.hljs.highlightAll === 'function') {
+          window.hljs.configure({ languages: ['go','java','javascript','typescript','json','bash','python','c','cpp'] });
+          window.hljs.highlightAll();
+        } else {
+          document.querySelectorAll('#post-content pre code').forEach((el) => window.hljs.highlightElement(el));
+        }
+      } catch (e) {
+        console.warn('Highlight.js failed:', e);
+      }
+    }
+
     // Setup likes/views UI and record one view
     setEngagementUI(post);
     recordView(slug);
@@ -116,52 +130,78 @@ function showError(message) {
 
 // Format content with markdown-like styling
 function formatContent(content) {
-  return content
-    // Headers
+  // Helper to escape HTML
+  function escapeHtml(str) {
+    return String(str)
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#039;');
+  }
+
+  // Extract fenced code blocks first to avoid other regex interfering
+  // Supports: ```lang\ncode``` OR ```\nlang\ncode``` (first line language)
+  const codeBlocks = [];
+  let idx = 0;
+  const withoutFences = content.replace(/```\s*([a-zA-Z0-9_+\-]*)\s*\r?\n([\s\S]*?)```/g, (_, lang, body) => {
+    let language = (lang || '').trim().toLowerCase();
+    let code = body;
+
+    // If no language on fence, try infer from first line
+    if (!language) {
+      const m = code.match(/^\s*([a-zA-Z][a-zA-Z0-9_+\-]*)\s*\r?\n/);
+      if (m) {
+        const candidate = m[1].toLowerCase();
+        const known = new Set(['go','golang','java','js','javascript','ts','typescript','json','bash','sh','shell','py','python','c','cpp','c++','rust','rs','html','css','xml','yaml','yml','toml','dockerfile','sql']);
+        if (known.has(candidate)) {
+          language = candidate === 'golang' ? 'go' : candidate;
+          code = code.slice(m[0].length);
+        }
+      }
+    }
+
+    const cls = language ? ` class="language-${language}"` : '';
+    const html = `<pre><code${cls}>${escapeHtml(code)}</code></pre>`;
+    codeBlocks.push(html);
+    return `[[[CODE_BLOCK_${idx++}]]]`;
+  });
+
+  // Inline code
+  const withInline = withoutFences.replace(/`([^`]+)`/g, (_, s) => `<code>${escapeHtml(s)}</code>`);
+
+  // Headings, emphasis, images, links, quotes, lists
+  let html = withInline
     .replace(/^### (.*$)/gm, '<h3>$1</h3>')
     .replace(/^## (.*$)/gm, '<h2>$1</h2>')
     .replace(/^# (.*$)/gm, '<h1>$1</h1>')
-    
-    // Bold and italic
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
     .replace(/\*(.*?)\*/g, '<em>$1</em>')
-    
-    // Images
     .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" class="post-image">')
-    
-    // Code blocks
-    .replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>')
-    .replace(/`([^`]+)`/g, '<code>$1</code>')
-    
-    // Links
     .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
-    
-    // Blockquotes
     .replace(/^> (.*$)/gm, '<blockquote>$1</blockquote>')
-    
-    // Lists
     .replace(/^\s*[-*] (.*$)/gm, '<li>$1</li>')
-    .replace(/((?:<li>.*<\/li>\n?)+)/g, '<ul>$1</ul>')
-    
-    // Paragraphs (add this after other replacements)
-    .split('\n\n')
-    .map(paragraph => {
-      if (!paragraph.trim().startsWith('<') || 
-          paragraph.trim().startsWith('<p>') || 
-          paragraph.trim().startsWith('<img') ||
-          paragraph.trim().startsWith('<ul>') || 
-          paragraph.trim().startsWith('<ol>') || 
-          paragraph.trim().startsWith('<blockquote>') ||
-          paragraph.trim().startsWith('<h1>') ||
-          paragraph.trim().startsWith('<h2>') ||
-          paragraph.trim().startsWith('<h3>') ||
-          paragraph.trim().startsWith('<pre>')) {
-        return paragraph;
-      }
-      return `<p>${paragraph}</p>`;
+    .replace(/((?:<li>.*<\/li>\n?)+)/g, '<ul>$1</ul>');
+
+  // Paragraphs (preserve existing blocks)
+  html = html
+    .split(/\r?\n\r?\n/)
+    .map(p => {
+      const t = p.trim();
+      if (!t || (t.startsWith('<') && (
+        t.startsWith('<p>') || t.startsWith('<img') || t.startsWith('<ul>') || t.startsWith('<ol>') ||
+        t.startsWith('<blockquote>') || t.startsWith('<h1>') || t.startsWith('<h2>') || t.startsWith('<h3>') ||
+        t.startsWith('<pre>')
+      ))) return p;
+      return `<p>${p}</p>`;
     })
     .join('\n\n')
     .replace(/\n/g, '<br>');
+
+  // Restore code blocks
+  html = html.replace(/\[\[\[CODE_BLOCK_(\d+)\]\]\]/g, (_, i) => codeBlocks[Number(i)] || '');
+
+  return html;
 }
 
 // Format date
